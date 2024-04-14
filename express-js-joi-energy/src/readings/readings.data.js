@@ -24,6 +24,5 @@ const generateAllMeters = () => {
 };
 
 const readingsData = generateAllMeters();
-console.log(readingsData);
 
 module.exports = { readingsData };

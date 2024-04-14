@@ -2,6 +2,33 @@ const { pricePlanService } = require('./price-plans-service');
 const { pricePlans } = require('./price-plans');
 const { meters, meterPricePlanMap } = require('../meters/meters.data');
 
+/*
+Schema
+meterData = {
+  METER0 : 'smart-meter-0',
+  METER1 : 'smart-meter-1',
+  METER2 : 'smart-meter-2',
+}
+
+meterPricePlanMap = {
+ 'smart-meter-0' :  {
+    supplier:  "Dr Evil's Dark Energy",
+    rate: 10,
+  },
+ 'smart-meter-1' :  {
+    supplier:  "Dr Evil's Dark Energy",
+    rate: 10,
+  },
+}
+
+pricePlan = {
+  "price-plan-0" : {
+    supplier : "Dr Evil's Dark Energy",
+    rate :10
+  }
+}
+*/
+
 describe('price-plans service', () => {
   describe('get price-plan from meterId', () => {
     it('should retrieve price-plan from supplier name', () => {
@@ -9,7 +36,7 @@ describe('price-plans service', () => {
       // Arrange
       let meterId = 'smart-meter-0';
       let expectedPricePlan = 'price-plan-0';
-      const { getCurrentPricePlanFromMeterId } = pricePlanService(pricePlans, meterPricePlanMap);
+      const { getCurrentPricePlanFromMeterId } = createPricePlanService();
 
       // Act
       const result = getCurrentPricePlanFromMeterId(meterId);
@@ -21,7 +48,7 @@ describe('price-plans service', () => {
       // Arrange
       let meterId = 'smart-meter-fake-0';
       let expectedPricePlan = '';
-      const { getCurrentPricePlanFromMeterId } = pricePlanService(pricePlans, meterPricePlanMap);
+      const { getCurrentPricePlanFromMeterId } = createPricePlanService();
 
       // Act
       const result = getCurrentPricePlanFromMeterId(meterId);
@@ -32,17 +59,18 @@ describe('price-plans service', () => {
 
   describe('change price plan from meterId', () => {
     // arrange
-    let meterId = 'smart-meter-0';
-    const planId = 'price-plan-2';
-    const { getCurrentPricePlanFromMeterId, changePlan } = pricePlanService(
-      pricePlans,
-      meterPricePlanMap
-    );
+
+    const { getCurrentPricePlanFromMeterId, changePlan } = createPricePlanService();
     // act
-    const result = changePlan(meters, meterId, planId);
-    const newPricePlan = getCurrentPricePlanFromMeterId(meterId);
+    const result = changePlan('smart-meter-0', 'price-plan-2');
+    const updatedPricePlan = getCurrentPricePlanFromMeterId('smart-meter-0');
+    // console.log(updatedPricePlan);
 
     // assert
-    expect(newPricePlan).toBe(planId);
+    expect(updatedPricePlan).toBe('price-plan-2');
   });
 });
+
+function createPricePlanService() {
+  return pricePlanService({ ...pricePlans }, { ...meterPricePlanMap });
+}

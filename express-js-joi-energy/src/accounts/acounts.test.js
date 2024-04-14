@@ -14,7 +14,6 @@ describe('account service', () => {
       addAccount(newAccount);
 
       // Assert
-      console.log(accountData);
       expect(accountData[newAccount.email]).toEqual(newAccount);
     });
 
