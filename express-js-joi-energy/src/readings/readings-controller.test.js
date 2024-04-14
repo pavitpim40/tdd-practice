@@ -1,45 +1,45 @@
-const { read, store } = require("./readings-controller");
-const { readingsData } = require("./readings.data");
-const { readings } = require("./readings");
-const { meters } = require("../meters/meters");
+const { read, store } = require('./readings-controller');
+const { readingsData } = require('./readings.data');
+const { readings } = require('./readings');
+const { meters } = require('../meters/meters.data');
 
-describe("readings", () => {
-    it("should get readings with meter id from params", () => {
-        const { getReadings } = readings(readingsData);
-        const readingsForMeter = read(getReadings, {
-            params: {
-                smartMeterId: meters.METER0,
-            },
-        });
-
-        expect(readingsForMeter).toEqual(readingsData[meters.METER0]);
+describe('readings', () => {
+  it('should get readings with meter id from params', () => {
+    const { getReadings } = readings(readingsData);
+    const readingsForMeter = read(getReadings, {
+      params: {
+        smartMeterId: meters.METER0,
+      },
     });
 
-    it("should store readings with meter id and readings from body", () => {
-        const { setReadings, getReadings } = readings(readingsData);
+    expect(readingsForMeter).toEqual(readingsData[meters.METER0]);
+  });
 
-        const originalLength = getReadings(meters.METER0).length;
+  it('should store readings with meter id and readings from body', () => {
+    const { setReadings, getReadings } = readings(readingsData);
 
-        const fixture = {
-            smartMeterId: meters.METER0,
-            electricityReadings: [
-                {
-                    time: 981438113,
-                    reading: 0.0503,
-                },
-                {
-                    time: 982087047,
-                    reading: 0.0213,
-                },
-            ],
-        };
+    const originalLength = getReadings(meters.METER0).length;
 
-        store(setReadings, {
-            body: fixture,
-        });
+    const fixture = {
+      smartMeterId: meters.METER0,
+      electricityReadings: [
+        {
+          time: 981438113,
+          reading: 0.0503,
+        },
+        {
+          time: 982087047,
+          reading: 0.0213,
+        },
+      ],
+    };
 
-        const newLength = getReadings(meters.METER0).length;
-
-        expect(originalLength + 2).toEqual(newLength);
+    store(setReadings, {
+      body: fixture,
     });
+
+    const newLength = getReadings(meters.METER0).length;
+
+    expect(originalLength + 2).toEqual(newLength);
+  });
 });

@@ -1,15 +1,20 @@
-const { pricePlans, pricePlanNames } = require('../price-plans/price-plans');
+const meters = (data) => ({
+  addMeter: (account, newMeter) => {
+    if (!data[account]) data[account] = [newMeter];
+    else data[account] = [...data[account], newMeter];
+    return data[account];
+  },
+  getAllMeter: (accountId) => {
+    if (!data[accountId]) return [];
+    return data[accountId];
+  },
+  removeMeter: (accountId, meterId) => {
+    if (!data[accountId]) return;
+    const foundIndex = data[accountId].findIndex((meter) => meter === meterId);
+    if (foundIndex !== -1) {
+      data[accountId].splice(foundIndex, 1);
+    }
+  },
+});
 
-const meters = {
-  METER0: 'smart-meter-0',
-  METER1: 'smart-meter-1',
-  METER2: 'smart-meter-2',
-};
-
-const meterPricePlanMap = {
-  [meters.METER0]: pricePlans[pricePlanNames.PRICEPLAN0],
-  [meters.METER1]: pricePlans[pricePlanNames.PRICEPLAN1],
-  [meters.METER2]: pricePlans[pricePlanNames.PRICEPLAN2],
-};
-
-module.exports = { meterPricePlanMap, meters };
+module.exports = { meters };

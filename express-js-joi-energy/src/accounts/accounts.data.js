@@ -1,4 +1,4 @@
-const { meters } = require('../meters/meters');
+const { meters } = require('../meters/meters.data');
 const accountsData = {
   USER0: 'Sarah',
   USER1: 'Peter',

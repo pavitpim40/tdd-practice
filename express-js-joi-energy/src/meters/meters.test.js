@@ -1,14 +1,13 @@
-const { meters } = require('../meters/meters');
-const { accountsData } = require('./accounts.data');
-const { accounts } = require('./accounts');
+const { accountsData } = require('../accounts/accounts.data');
+const { meters } = require('./meters');
 describe('account service', () => {
-  describe('add meter to account', () => {
+  describe('AddMeter : add meter to account', () => {
     it('should return array of add meters when add meter to account', () => {
       // Arrange
       let data = {
         [accountsData.USER0]: [],
       };
-      const { addMeter } = accounts(data);
+      const { addMeter } = createMeterService(data);
 
       // Act
       const allMeterInAccount = addMeter(accountsData.USER0, meters.METER0);
@@ -18,8 +17,7 @@ describe('account service', () => {
     });
 
     it("should add new account and meter when account doesn't exits", () => {
-      let data = {};
-      const { addMeter } = accounts(data);
+      const { addMeter } = createMeterService();
 
       // Act
       const allMeterInAccount = addMeter(accountsData.USER0, meters.METER0);
@@ -29,13 +27,13 @@ describe('account service', () => {
     });
   });
 
-  describe('get account detail by account-id', () => {
+  describe('getAllMeter : get all meter from account-id', () => {
     it('should get all meter in account', () => {
       // arrange
       const initData = {
         [accountsData.USER0]: [meters.METER0, meters.METER1],
       };
-      const { getAllMeter } = accounts(initData);
+      const { getAllMeter } = createMeterService(initData);
 
       // Act
       const result = getAllMeter(accountsData.USER0);
@@ -48,9 +46,9 @@ describe('account service', () => {
 
     it('should return empty array when there is no meter in account', () => {
       const initData = {
-        [accounts.METER0]: [],
+        [accountsData.METER0]: [],
       };
-      const { getAllMeter } = accounts(initData);
+      const { getAllMeter } = createMeterService(initData);
 
       // Act
       const result = getAllMeter(accountsData.USER0);
@@ -61,8 +59,7 @@ describe('account service', () => {
     });
 
     it('should return empty array when there is no account', () => {
-      const initData = {};
-      const { getAllMeter } = accounts(initData);
+      const { getAllMeter } = createMeterService();
 
       // Act
       const result = getAllMeter();
@@ -73,11 +70,11 @@ describe('account service', () => {
     });
   });
 
-  describe('remove meter from account', () => {
+  describe('removeMeter : remove meter from meterId and accountId', () => {
     it('should remove meter from account', () => {
       // arrange
       let initData = { [accountsData.USER0]: [meters.METER0] };
-      const { removeMeter, getAllMeter } = accounts(initData);
+      const { removeMeter, getAllMeter } = createMeterService(initData);
 
       // act
       removeMeter(accountsData.USER0, meters.METER0);
@@ -91,7 +88,7 @@ describe('account service', () => {
     it('should remove correct and specific-meter from account', () => {
       // arrange
       let initData = { [accountsData.USER0]: [meters.METER0, meters.METER1, meters.METER2] };
-      const { removeMeter, getAllMeter } = accounts(initData);
+      const { removeMeter, getAllMeter } = createMeterService(initData);
 
       // act
       removeMeter(accountsData.USER0, meters.METER1);
@@ -106,7 +103,7 @@ describe('account service', () => {
 
     it('should not remove anything when there is no meter in account', () => {
       let initData = { [accountsData.USER0]: [] };
-      const { removeMeter, getAllMeter } = accounts(initData);
+      const { removeMeter, getAllMeter } = createMeterService(initData);
 
       removeMeter(accountsData.USER0, meters.METER1);
 
@@ -116,8 +113,7 @@ describe('account service', () => {
     });
 
     it('should not remove anything when there is no account', () => {
-      let initData = {};
-      const { removeMeter, getAllMeter } = accounts(initData);
+      const { removeMeter, getAllMeter } = createMeterService();
 
       removeMeter(accountsData.USER0, meters.METER1);
 
@@ -127,3 +123,7 @@ describe('account service', () => {
     });
   });
 });
+
+function createMeterService(data = {}) {
+  return meters(data);
+}
