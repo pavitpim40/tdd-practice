@@ -1,8 +1,8 @@
 const meters = (data) => ({
-  addMeter: (account, newMeter) => {
-    if (!data[account]) data[account] = [newMeter];
-    else data[account] = [...data[account], newMeter];
-    return data[account];
+  addMeter: (accountId, newMeter) => {
+    if (!data[accountId]) data[accountId] = [newMeter];
+    else data[accountId] = [...data[accountId], newMeter];
+    return data[accountId];
   },
   getAllMeter: (accountId) => {
     if (!data[accountId]) return [];

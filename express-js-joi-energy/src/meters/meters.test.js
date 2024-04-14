@@ -1,13 +1,23 @@
 const { accountsData } = require('../accounts/accounts.data');
 const { meters } = require('./meters');
-describe('account service', () => {
+
+/*
+Schema for data 
+accountsData = {
+  [key:email] : {firstName:string}
+}
+accountsMeterMap : {
+  [key:email] : Array<Meter>
+}
+*/
+describe('Meter service for Account', () => {
   describe('AddMeter : add meter to account', () => {
     it('should return array of add meters when add meter to account', () => {
       // Arrange
-      let data = {
+      let accountsMeterMap = {
         [accountsData.USER0]: [],
       };
-      const { addMeter } = createMeterService(data);
+      const { addMeter } = createMeterService(accountsMeterMap);
 
       // Act
       const allMeterInAccount = addMeter(accountsData.USER0, meters.METER0);
@@ -30,10 +40,10 @@ describe('account service', () => {
   describe('getAllMeter : get all meter from account-id', () => {
     it('should get all meter in account', () => {
       // arrange
-      const initData = {
+      const accountsMeterMap = {
         [accountsData.USER0]: [meters.METER0, meters.METER1],
       };
-      const { getAllMeter } = createMeterService(initData);
+      const { getAllMeter } = createMeterService(accountsMeterMap);
 
       // Act
       const result = getAllMeter(accountsData.USER0);
@@ -45,10 +55,10 @@ describe('account service', () => {
     });
 
     it('should return empty array when there is no meter in account', () => {
-      const initData = {
+      const accountsMeterMap = {
         [accountsData.METER0]: [],
       };
-      const { getAllMeter } = createMeterService(initData);
+      const { getAllMeter } = createMeterService(accountsMeterMap);
 
       // Act
       const result = getAllMeter(accountsData.USER0);
@@ -73,8 +83,8 @@ describe('account service', () => {
   describe('removeMeter : remove meter from meterId and accountId', () => {
     it('should remove meter from account', () => {
       // arrange
-      let initData = { [accountsData.USER0]: [meters.METER0] };
-      const { removeMeter, getAllMeter } = createMeterService(initData);
+      let accountsMeterMap = { [accountsData.USER0]: [meters.METER0] };
+      const { removeMeter, getAllMeter } = createMeterService(accountsMeterMap);
 
       // act
       removeMeter(accountsData.USER0, meters.METER0);
@@ -87,8 +97,10 @@ describe('account service', () => {
 
     it('should remove correct and specific-meter from account', () => {
       // arrange
-      let initData = { [accountsData.USER0]: [meters.METER0, meters.METER1, meters.METER2] };
-      const { removeMeter, getAllMeter } = createMeterService(initData);
+      let accountsMeterMap = {
+        [accountsData.USER0]: [meters.METER0, meters.METER1, meters.METER2],
+      };
+      const { removeMeter, getAllMeter } = createMeterService(accountsMeterMap);
 
       // act
       removeMeter(accountsData.USER0, meters.METER1);
@@ -102,8 +114,8 @@ describe('account service', () => {
     });
 
     it('should not remove anything when there is no meter in account', () => {
-      let initData = { [accountsData.USER0]: [] };
-      const { removeMeter, getAllMeter } = createMeterService(initData);
+      let accountsMeterMap = { [accountsData.USER0]: [] };
+      const { removeMeter, getAllMeter } = createMeterService(accountsMeterMap);
 
       removeMeter(accountsData.USER0, meters.METER1);
 

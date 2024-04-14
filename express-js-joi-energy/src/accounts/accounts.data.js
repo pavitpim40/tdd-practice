@@ -4,12 +4,15 @@ const accounts = {
   USER1: 'Peter@mail.com',
   USER2: 'Charlie@mail.com',
 };
+
+// For Domain
 const accountsData = {
   [accounts.USER0]: { firstName: 'Sarah' },
   [accounts.USER1]: { firstName: 'Peter' },
   [accounts.USER2]: { firstName: 'Charlie' },
 };
 
+// For Other Domain
 const accountMetersMap = {
   [accountsData.USER0]: [meters.METER0],
   [accountsData.USER1]: [meters.METER1],
