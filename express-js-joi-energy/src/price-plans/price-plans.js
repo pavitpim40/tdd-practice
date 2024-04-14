@@ -2,8 +2,6 @@ const pricePlanNames = {
   PRICEPLAN0: 'price-plan-0',
   PRICEPLAN1: 'price-plan-1',
   PRICEPLAN2: 'price-plan-2',
-  PRICEPLAN3: 'price-plan-3',
-  PRICEPLAN4: 'price-plan-4',
 };
 
 const supplierNames = {

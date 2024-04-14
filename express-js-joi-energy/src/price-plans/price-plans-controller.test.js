@@ -1,8 +1,9 @@
 const { meters, meterPricePlanMap } = require('../meters/meters.data');
 
-const { pricePlanNames } = require('./price-plans');
+const { pricePlanNames, pricePlans } = require('./price-plans');
 const { readings } = require('../readings/readings');
 const { compare, recommend } = require('./price-plans-controller');
+const { pricePlanService } = require('./price-plans-service');
 
 describe('price plans', () => {
   describe('compare.controller', () => {
@@ -15,9 +16,10 @@ describe('price plans', () => {
           { time: 1607513324, reading: 0.26785 },
         ],
       });
+      const { getCurrentPricePlanFromMeterId } = pricePlanService(pricePlans, meterPricePlanMap);
 
       const expected = {
-        pricePlanComparisons: [
+        usageCostComparisons: [
           {
             [pricePlanNames.PRICEPLAN0]: (0.26785 / 48) * 10,
           },
@@ -29,15 +31,19 @@ describe('price plans', () => {
           },
         ],
         smartMeterId: meters.METER0,
+        currentPricePlan: 'price-plan-0',
       };
 
       // Act
-      const recommendation = compare(getReadings, {
-        params: {
-          smartMeterId: meters.METER0,
-        },
-        query: {},
-      });
+      const recommendation = compare(
+        { getReadings, getCurrentPricePlanFromMeterId },
+        {
+          params: {
+            smartMeterId: meters.METER0,
+          },
+          query: {},
+        }
+      );
 
       // Assert
       expect(recommendation).toEqual(expected);

@@ -27,13 +27,15 @@ const extractCost = (cost) => {
   return value;
 };
 
-const compare = (getReadings, req) => {
+const compare = ({ getReadings, getCurrentPricePlanFromMeterId }, req) => {
   const meter = req.params.smartMeterId;
-  const pricePlanComparisons = usageForAllPricePlans(pricePlans, getReadings(meter));
-  console.log(pricePlanComparisons);
+  const usageCostComparisons = usageForAllPricePlans(pricePlans, getReadings(meter));
+  const currentPricePlan = getCurrentPricePlanFromMeterId(meter);
+  // console.log(pricePlanComparisons);
   return {
     smartMeterId: req.params.smartMeterId,
-    pricePlanComparisons,
+    currentPricePlan,
+    usageCostComparisons,
   };
 };
 
