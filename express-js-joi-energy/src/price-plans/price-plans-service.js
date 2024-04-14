@@ -9,8 +9,7 @@ const pricePlanService = (pricePlan, meterPricePlanMap) => ({
   changePlan: (meterId, newPlanId) => {
     const newPlanDetail = pricePlan[newPlanId];
     meterPricePlanMap[meterId] = newPlanDetail;
-    // console.log(meterPricePlanMap[meterId]);
-    return meterPricePlanMap[meterId];
+    return newPlanId;
   },
 });
 

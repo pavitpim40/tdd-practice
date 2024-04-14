@@ -63,11 +63,9 @@ describe('price-plans service', () => {
     const { getCurrentPricePlanFromMeterId, changePlan } = createPricePlanService();
     // act
     const result = changePlan('smart-meter-0', 'price-plan-2');
-    const updatedPricePlan = getCurrentPricePlanFromMeterId('smart-meter-0');
-    // console.log(updatedPricePlan);
 
     // assert
-    expect(updatedPricePlan).toBe('price-plan-2');
+    expect(result).toBe('price-plan-2');
   });
 });
 

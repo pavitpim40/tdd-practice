@@ -7,11 +7,7 @@ const recommend = (getReadings, req) => {
   const pricePlanComparisons = usageForAllPricePlans(pricePlans, getReadings(meter)).sort(
     (a, b) => extractCost(a) - extractCost(b)
   );
-  // const pricePlan = usageForAllPricePlans(pricePlans, getReadings(meter));
 
-  // console.log(getReadings(meter));
-  // console.log('A', pricePlan);
-  // console.log('B', pricePlanComparisons);
   if ('limit' in req.query) {
     return pricePlanComparisons.slice(0, req.query.limit);
   }
@@ -38,4 +34,10 @@ const compare = ({ getReadings, getCurrentPricePlanFromMeterId }, req) => {
   };
 };
 
-module.exports = { recommend, compare };
+const change = ({ changePlan }, req) => {
+  const meterId = req.params.smartMeterId;
+  const newPlanId = req.body.pricePlan;
+  const updatedPlan = changePlan(meterId, newPlanId);
+  return { pricePlan: updatedPlan, smartMeterId: meterId };
+};
+module.exports = { recommend, compare, change };

@@ -2,7 +2,7 @@ const { meters, meterPricePlanMap } = require('../meters/meters.data');
 
 const { pricePlanNames, pricePlans } = require('./price-plans');
 const { readings } = require('../readings/readings');
-const { compare, recommend } = require('./price-plans-controller');
+const { compare, recommend, change } = require('./price-plans-controller');
 const { pricePlanService } = require('./price-plans-service');
 
 describe('price plans', () => {
@@ -107,6 +107,28 @@ describe('price plans', () => {
       });
 
       expect(recommendation).toEqual(expected);
+    });
+  });
+
+  describe('change.controller', () => {
+    it('should return smartMeterId and new-current-plan', () => {
+      // Arrange
+      const requestObj = {
+        body: {
+          pricePlan: 'price-plan-2',
+        },
+        params: {
+          smartMeterId: meters.METER0,
+        },
+        query: {},
+      };
+
+      const { changePlan } = pricePlanService({ ...pricePlans }, { ...meterPricePlanMap });
+      // Act
+      const result = change({ changePlan }, requestObj);
+
+      // Assert
+      expect(result).toEqual({ smartMeterId: meters.METER0, pricePlan: 'price-plan-2' });
     });
   });
 });
