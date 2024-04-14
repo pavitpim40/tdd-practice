@@ -12,4 +12,20 @@ const meterPricePlanMap = {
   [meters.METER2]: pricePlans[pricePlanNames.PRICEPLAN2],
 };
 
+/*
+meterPricePlanMap = { 
+  'smart-meter-0' :  {
+    supplier:  "Dr Evil's Dark Energy",
+    rate: 10,
+  },
+}
+
+pricePlans = {
+  'price-plan-0' :  {
+    supplier:  "Dr Evil's Dark Energy",
+    rate: 10,
+  },
+}
+*/
+
 module.exports = { meterPricePlanMap, meters };

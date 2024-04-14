@@ -29,10 +29,11 @@ describe('usage', () => {
           { time: 1607512024, reading: 0.26785 },
         ],
       });
+      const totalHour = 48;
 
       const timeElapsedMeter0 = timeElapsedInHours(getReadings(meters.METER0));
 
-      expect(timeElapsedMeter0).toBe(48);
+      expect(timeElapsedMeter0).toBe(totalHour);
     });
   });
 
@@ -45,10 +46,13 @@ describe('usage', () => {
           { time: 1607513324, reading: 0.26785 },
         ],
       });
+      const totalUsage = 0.26785;
+      const totalHour = 48;
+      let totalUsageInKWH = totalUsage / totalHour;
 
       const usageMeter0 = usage(getReadings(meters.METER0));
 
-      expect(usageMeter0).toBe(0.26785 / 48);
+      expect(usageMeter0).toBe(totalUsageInKWH);
     });
   });
 
@@ -61,11 +65,14 @@ describe('usage', () => {
           { time: 1607513324, reading: 0.26785 },
         ],
       });
+      const totalUsage = 0.26785;
+      const totalHour = 48;
+      let totalUsageInKWH = totalUsage / totalHour;
 
       const rate = meterPricePlanMap[meters.METER2].rate;
       const usageCostForMeter = usageCost(getReadings(meters.METER2), rate);
 
-      expect(usageCostForMeter).toBe((0.26785 / 48) * 1);
+      expect(usageCostForMeter).toBe(totalUsageInKWH * 1);
     });
   });
 
@@ -78,16 +85,19 @@ describe('usage', () => {
           { time: 1607513324, reading: 0.26785 },
         ],
       });
+      const totalUsage = 0.26785;
+      const totalHour = 48;
+      let totalUsageInKWH = totalUsage / totalHour;
 
       const expected = [
         {
-          [pricePlanNames.PRICEPLAN0]: (0.26785 / 48) * 10,
+          [pricePlanNames.PRICEPLAN0]: totalUsageInKWH * 10,
         },
         {
-          [pricePlanNames.PRICEPLAN1]: (0.26785 / 48) * 2,
+          [pricePlanNames.PRICEPLAN1]: totalUsageInKWH * 2,
         },
         {
-          [pricePlanNames.PRICEPLAN2]: (0.26785 / 48) * 1,
+          [pricePlanNames.PRICEPLAN2]: totalUsageInKWH * 1,
         },
       ];
 
