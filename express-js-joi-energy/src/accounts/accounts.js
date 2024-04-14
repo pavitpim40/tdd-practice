@@ -1,7 +1,10 @@
 const accounts = (data) => ({
   addAccount: (account) => {
-    if (data[account]) throw new Error('unique violation');
-    data[account] = account;
+    if (data[account.email]) throw new Error('unique violation');
+    data[account.email] = { ...account };
+  },
+  getAccountByEmail: (email) => {
+    return data[email] || null;
   },
 });
 

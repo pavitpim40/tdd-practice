@@ -1,8 +1,13 @@
 const { meters } = require('../meters/meters.data');
+const accounts = {
+  USER0: 'Sarah@mail.com',
+  USER1: 'Peter@mail.com',
+  USER2: 'Charlie@mail.com',
+};
 const accountsData = {
-  USER0: 'Sarah',
-  USER1: 'Peter',
-  USER2: 'Charlie',
+  [accounts.USER0]: { firstName: 'Sarah' },
+  [accounts.USER1]: { firstName: 'Peter' },
+  [accounts.USER2]: { firstName: 'Charlie' },
 };
 
 const accountMetersMap = {
