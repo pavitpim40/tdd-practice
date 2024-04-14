@@ -31,7 +31,6 @@ const compare = ({ getReadings, getCurrentPricePlanFromMeterId }, req) => {
   const meter = req.params.smartMeterId;
   const usageCostComparisons = usageForAllPricePlans(pricePlans, getReadings(meter));
   const currentPricePlan = getCurrentPricePlanFromMeterId(meter);
-  // console.log(pricePlanComparisons);
   return {
     smartMeterId: req.params.smartMeterId,
     currentPricePlan,

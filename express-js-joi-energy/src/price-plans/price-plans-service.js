@@ -6,6 +6,10 @@ const pricePlanService = (pricePlan, meterPricePlanMap) => ({
       if (detail.supplier === supplierName) return planId;
     }
   },
+  changePlan: (meter, meterId, newPlanId) => {
+    meter[meterId] = newPlanId;
+    return meter[meterId];
+  },
 });
 
 module.exports = { pricePlanService };
