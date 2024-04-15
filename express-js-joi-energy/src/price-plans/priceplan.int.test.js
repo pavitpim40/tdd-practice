@@ -1,6 +1,5 @@
 const request = require('supertest');
-const app = require('../../src/app');
-const { pricePlanService } = require('../../src/price-plans/price-plans-service');
+const app = require('../app');
 
 const ENDPOINT = '/price-plans';
 

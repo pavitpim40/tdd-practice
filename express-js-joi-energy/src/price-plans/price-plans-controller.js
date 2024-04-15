@@ -3,6 +3,11 @@ const { usageForAllPricePlans } = require('../usage/usage');
 
 const recommend = (getReadings, req) => {
   const meter = req.params.smartMeterId;
+  // console.log(usageForAllPricePlans(pricePlans, getReadings(meter)));
+
+  // const pricePlanComparisons = usageForAllPricePlans(pricePlans, getReadings(meter)).sort(
+  //   (a, b) => extractCost(a) - extractCost(b)
+  // );
 
   const pricePlanComparisons = usageForAllPricePlans(pricePlans, getReadings(meter)).sort(
     (a, b) => extractCost(a) - extractCost(b)
@@ -15,12 +20,9 @@ const recommend = (getReadings, req) => {
 };
 
 const extractCost = (cost) => {
-  // console.log(cost);
-  const [, value] = Object.entries(cost).find(([key]) => {
-    // console.log(key);
-    return key in pricePlans;
-  });
-  return value;
+  for (let key in cost) {
+    if (key in pricePlans) return cost[key];
+  }
 };
 
 const compare = ({ getReadings, getCurrentPricePlanFromMeterId }, req) => {
